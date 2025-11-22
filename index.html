@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte | primeStudios - Bots & Sites</title>
+    <!-- Carrega o Tailwind CSS para estilização rápida e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* Configuração de fonte global e cores Dark Mode */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #05051a; /* Fundo super escuro (quase preto azulado) */
+            color: #f1f5f9; /* Texto claro */
+        }
+        /* Cor Primária Neon (Indigo) */
+        .prime-primary-text {
+            color: #818cf8; /* indigo-400 para acento moderno */
+        }
+        .prime-bg-gradient {
+            background-image: linear-gradient(to right bottom, #100f2e, #0e1236);
+        }
+        
+        /* Efeito de brilho sutil para os cartões no modo escuro - MAIS MODERNO */
+        .card-glow {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background-color: #1a202c; /* Fundo do card mais claro que o body */
+            border: 1px solid transparent;
+            position: relative;
+        }
+        /* Efeito de Borda Degradê no Hover */
+        .card-glow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 2px solid transparent;
+            /* Degradê de Indigo para Roxo Claro */
+            background: linear-gradient(135deg, #4f46e5 0%, #a78bfa 100%) border-box; 
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .card-glow:hover {
+            transform: translateY(-6px); /* Elevação suave maior */
+            /* Sombra etérea e vibrante */
+            box-shadow: 0 15px 30px rgba(79, 70, 229, 0.6); 
+        }
+        .card-glow:hover::before {
+            opacity: 0.7; /* Mostra o brilho da borda no hover */
+        }
+
+        /* Estilo do campo de texto agora reativado */
+        #issue-input:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.5);
+        }
+
+        /* Estilo para o loader/spinner */
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #818cf8;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Cabeçalho (Header) - Fundo escuro sólido e clean -->
+    <header class="bg-gray-900/50 backdrop-blur-sm sticky top-0 z-10 text-white p-4 shadow-2xl border-b border-gray-800">
+        <div class="max-w-7xl mx-auto flex justify-center items-center">
+            <!-- Título maior e mais impactante -->
+            <h1 class="text-3xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-fuchsia-400">
+                PRIME<span class="text-white text-opacity-80 font-extrabold">STUDIOS</span>
+            </h1>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+
+        <!-- Seção de Busca/Introdução (Hero Moderno com Gradiente) -->
+        <section class="text-center p-10 md:p-16 prime-bg-gradient rounded-3xl mb-10 shadow-2xl border border-indigo-900/50">
+            <h2 class="text-6xl font-extrabold text-white mb-6 tracking-tight">
+                SUPORTE <span class="prime-primary-text font-black">IMEDIATO</span>
+            </h2>
+            <p class="text-xl text-gray-300 mb-8 max-w-3xl mx-auto font-light">
+                Conecte-se diretamente com nossa equipe. Para agilizar, use a nossa ferramenta de resumo com IA.
+            </p>
+
+            <!-- Área de Input e Botão (Ativada para Gemini) -->
+            <div class="max-w-4xl mx-auto p-6 bg-gray-900/40 rounded-2xl border border-indigo-800/50 shadow-inner">
+                <textarea id="issue-input" 
+                       placeholder="Descreva seu problema ou solicitação em detalhes (ex: 'Meu bot parou de enviar mensagens após a atualização do Telegram...')"
+                       class="w-full h-28 p-4 text-base text-white rounded-xl bg-gray-800/70 border-2 border-gray-700 mb-4 transition-all resize-none focus:ring-0"
+                ></textarea>
+                
+                <button id="summarize-btn" class="w-full md:w-auto px-8 py-3 bg-indigo-600 text-white font-bold rounded-full text-lg shadow-xl hover:bg-indigo-700 transition-colors duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-wait">
+                    <!-- O texto do botão agora é "PrimeAI" -->
+                    <span id="btn-text">✨ PrimeAI</span>
+                    <div id="loader" class="loader ml-3 hidden"></div>
+                </button>
+            </div>
+            
+            <!-- Área de Resultados do Gemini -->
+            <div id="gemini-output" class="mt-8 text-left p-6 bg-gray-800/50 border border-indigo-700/50 rounded-xl shadow-lg hidden">
+                <h4 class="text-2xl font-bold mb-3 prime-primary-text">Análise do Gemini:</h4>
+                <div id="summary-content" class="text-lg text-gray-200 mb-4"></div>
+                <div id="suggested-action" class="text-sm font-semibold text-gray-300 p-3 bg-gray-700 rounded-lg"></div>
+            </div>
+
+        </section>
+
+        <!-- Seção de Contato Rápido (Cards Modernos) -->
+        <section id="contact" class="mb-20">
+            <h3 class="text-4xl font-extrabold text-center mb-12 text-white border-b-2 border-indigo-900/50 inline-block px-4 pb-2 mx-auto prime-primary-text">
+                CANAIS DE ATENDIMENTO
+            </h3>
+            <!-- Layout ajustado para 3 colunas em telas grandes (lg:grid-cols-3) e 1 coluna em telas pequenas (grid-cols-1) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Card Email -->
+                <a href="mailto:primestudiosx@gmail.com" class="flex flex-col items-center justify-center p-8 rounded-xl card-glow transform group">
+                    <!-- Icone de Email (SVG) -->
+                    <svg class="w-12 h-12 mb-4 text-indigo-400 transition-colors duration-300 group-hover:text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span class="text-xl font-bold text-white mb-1 tracking-wide">SUPORTE VIA EMAIL</span>
+                    <span class="text-md text-gray-400 font-mono">primestudiosx@gmail.com</span>
+                    <span class="mt-3 text-indigo-300 font-semibold group-hover:underline text-md">Clique para Enviar &rarr;</span>
+                </a>
+                
+                <!-- Card Discord -->
+                <a href="https://discord.gg/JmXr4fCmwB" target="_blank" class="flex flex-col items-center justify-center p-8 rounded-xl card-glow transform group">
+                    <!-- Icone do Discord (SVG) -->
+                    <svg class="w-12 h-12 mb-4 text-indigo-400 transition-colors duration-300 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12.001 10.435c-1.35 0-2.45-1.09-2.45-2.438s1.1-2.437 2.45-2.437 2.45 1.09 2.45 2.438-1.1 2.437-2.45 2.437zm-6.236 7.64c.205-.152.441-.282.705-.386.41-.16 1.488-.506 2.502-.857 2.062 1.348 4.293 1.348 6.355 0 1.014.35 2.092.697 2.502.857.264.104.5.234.705.386 1.026.738 2.023.738 3.05-.182 1.027-.92 1.18-1.554.43-2.673-.418-.583-.935-1.196-1.52-1.782.998-.67 1.874-1.637 2.43-2.825.106-.22.18-.46.223-.71a.844.844 0 0 0-.27-.723c-.198-.15-.436-.263-.69-.336-.088-.024-.176-.046-.264-.067-1.127-.272-2.316-.407-3.52-.407-1.203 0-2.392.135-3.52.407-.088.02-.176.043-.264.067-.254.073-.492.186-.69.336-.184.14-.298.35-.27.574.043.25.117.49.223.71.556 1.188 1.432 2.155 2.43 2.825-.584.586-1.102 1.2-1.52 1.782-.75.75-1.125 1.78-.1 2.673 1.027.92 2.024.92 3.05.182zM12.001 2.5c5.235 0 9.5 4.195 9.5 9.382 0 1.838-.52 3.565-1.42 5.093l.36 1.543-1.61-.413c-1.442.92-3.116 1.472-4.904 1.472-5.235 0-9.5-4.195-9.5-9.382S6.766 2.5 12.001 2.5z"/></svg>
+                    <span class="text-xl font-bold text-white mb-1 tracking-wide">SUPORTE VIA DISCORD</span>
+                    <span class="text-md text-gray-400 font-mono">Entre no Servidor Oficial</span>
+                    <span class="mt-3 text-indigo-300 font-semibold group-hover:underline text-md">Acessar Comunidade &rarr;</span>
+                </a>
+                
+                <!-- Card Instagram -->
+                <a href="https://www.instagram.com/prime.studiosgg" target="_blank" class="flex flex-col items-center justify-center p-8 rounded-xl card-glow transform group">
+                    <!-- Icone do Instagram (SVG) - Cor Púrpura/Rosa para diferenciar -->
+                    <svg class="w-12 h-12 mb-4 text-pink-400 transition-colors duration-300 group-hover:text-white" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.58.01 4.85.071l.654.032c1.378.07 1.84.14 2.378.332.585.204 1.056.478 1.517.939.46.46.735.932.939 1.517.192.538.262 1.0.332 2.378l.032.654c.061 1.27.071 1.646.071 4.85s-.01 3.58-.071 4.85l-.032.654c-.07 1.378-.14 1.84-.332 2.378-.204.585-.478 1.056-.939 1.517-.46.46-.932.735-.939 1.517-.192.538-.262 1.0-.332 2.378l-.032-.654c-.061-1.27-.071-1.646-.071-4.85s.01-3.58.071-4.85l.032-.654c.07-1.378.14-1.84.332-2.378.204-.585.478-1.056.939-1.517.46-.46.932-.735 1.517-.939.538-.192 1.0-.262 2.378-.332l.654-.032c1.27-.061 1.646-.071 4.85-.071zm0 2.163c-3.141 0-3.522.01-4.757.07l-.545.027c-.42.022-.64.062-.77.106-.17.06-.32.146-.465.29-.145.145-.23.295-.29.465-.044.13-.084.35-.106.77l-.027.545c-.06 1.235-.07 1.616-.07 4.757s.01 3.522.07 4.757l.027.545c.022.42.062.64.106.77.06.17.146.32.29.465.145.145.295.23.465.29.13.044.35.084.77.106l.545.027c1.235.06 1.616.07 4.757.07s3.522-.01 4.757-.07l.545-.027c.42-.022.64-.062.77-.106.17-.06.32-.146.465-.29.145-.145.23-.295.29-.465.044-.13.084-.35.106-.77l.027-.545c.06-1.235.07-1.616.07-4.757s-.01-3.522-.07-4.757l-.027-.545c-.022-.42-.062-.64-.106-.77-.06-.17-.146-.32-.29-.465-.145-.145-.295-.23-.465-.29-.13-.044-.35-.084-.77-.106l-.545-.027c-1.235-.06-1.616-.07-4.757-.07zm-7.905 5.584c0 2.209 1.791 4 4 4s4-1.791 4-4-1.791-4-4-4-4 1.791-4 4zm4 2.163c-1.196 0-2.163-.967-2.163-2.163s.967-2.163 2.163-2.163 2.163.967 2.163 2.163-.967 2.163-2.163 2.163zm6.815-4.832c0 .546-.443.988-.988.988s-.988-.442-.988-.988.443-.988.988-.988.988.442.988.988z"/></svg>
+                    <span class="text-xl font-bold text-white mb-1 tracking-wide">INSTAGRAM</span>
+                    <span class="text-md text-gray-400 font-mono">@prime.studiosgg</span>
+                    <span class="mt-3 text-pink-300 font-semibold group-hover:underline text-md">Seguir &rarr;</span>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Rodapé Minimalista -->
+    <footer class="mt-16 py-6 bg-gray-900/50 backdrop-blur-sm text-gray-400 text-center border-t border-gray-800">
+        <p class="font-medium text-sm">&copy; 2025 PrimeStudios. Soluções Digitais e Automação.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const issueInput = document.getElementById('issue-input');
+            const summarizeBtn = document.getElementById('summarize-btn');
+            const btnText = document.getElementById('btn-text');
+            const loader = document.getElementById('loader');
+            const geminiOutput = document.getElementById('gemini-output');
+            const summaryContent = document.getElementById('summary-content');
+            const suggestedAction = document.getElementById('suggested-action');
+
+            // Configuração da API Key (deve ser vazia para o Canvas fornecer em runtime)
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+
+            // Função de utilidade para o Exponential Backoff
+            const fetchWithRetry = async (url, options, maxRetries = 5) => {
+                for (let i = 0; i < maxRetries; i++) {
+                    try {
+                        const response = await fetch(url, options);
+                        if (response.status === 429 && i < maxRetries - 1) {
+                            const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                            await new Promise(resolve => setTimeout(resolve, delay));
+                            continue;
+                        }
+                        return response;
+                    } catch (error) {
+                        if (i === maxRetries - 1) throw error;
+                        const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            };
+
+            // Função para gerar o resumo e a sugestão de contato usando o Gemini
+            const summarizeIssue = async (issueText) => {
+                const systemPrompt = "Você é um Analista de Suporte de IA para uma empresa chamada PrimeStudios. Sua tarefa é analisar o problema fornecido pelo cliente e retornar uma resposta JSON estritamente no seguinte formato. O idioma da resposta DEVE ser o Português do Brasil.";
+                
+                // A query foi atualizada para refletir os canais disponíveis (removendo WhatsApp)
+                const userQuery = `Com base no seguinte problema do cliente, gere um resumo conciso (máximo 40 palavras) e sugira o melhor canal de atendimento entre: 'EMAIL' (para problemas complexos, contratuais ou suporte geral) ou 'DISCORD' (para dúvidas técnicas rápidas e comunidade). Problema: "${issueText}"`;
+
+                const payload = {
+                    contents: [{ parts: [{ text: userQuery }] }],
+                    systemInstruction: { parts: [{ text: systemPrompt }] },
+                    config: {
+                         responseMimeType: "application/json",
+                         responseSchema: {
+                            type: "OBJECT",
+                            properties: {
+                                "resumo": { "type": "STRING", "description": "Resumo conciso do problema." },
+                                "canal_sugerido": { "type": "STRING", "description": "Canal de suporte sugerido: EMAIL ou DISCORD." },
+                                "motivacao": { "type": "STRING", "description": "Uma breve frase sobre por que esse canal foi escolhido." }
+                            },
+                            required: ["resumo", "canal_sugerido", "motivacao"]
+                        }
+                    }
+                };
+
+                const options = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                };
+
+                try {
+                    const response = await fetchWithRetry(apiUrl, options);
+                    const result = await response.json();
+
+                    if (result.candidates && result.candidates.length > 0 && result.candidates[0].content && result.candidates[0].content.parts && result.candidates[0].content.parts.length > 0) {
+                        const jsonText = result.candidates[0].content.parts[0].text;
+                        return JSON.parse(jsonText);
+                    } else {
+                        console.error("Erro na resposta da API:", result);
+                        return { resumo: "Não foi possível gerar um resumo.", canal_sugerido: "EMAIL", motivacao: "Tente o suporte por email para problemas complexos." };
+                    }
+                } catch (error) {
+                    console.error("Erro ao chamar a API do Gemini:", error);
+                    return { resumo: "Ocorreu um erro de conexão com a IA.", canal_sugerido: "EMAIL", motivacao: "Tente o suporte por email para problemas complexos." };
+                }
+            };
+
+            // Event Listener para o botão de Resumo
+            summarizeBtn.addEventListener('click', async () => {
+                const issueText = issueInput.value.trim();
+
+                if (issueText.length < 20) {
+                    summaryContent.innerHTML = "<p class='text-red-400'>Por favor, digite uma descrição mais detalhada do seu problema (mínimo 20 caracteres).</p>";
+                    suggestedAction.textContent = "";
+                    geminiOutput.classList.remove('hidden');
+                    return;
+                }
+
+                // Inicia o estado de carregamento
+                summarizeBtn.disabled = true;
+                btnText.textContent = "Analisando...";
+                loader.classList.remove('hidden');
+                geminiOutput.classList.add('hidden'); // Oculta a saída enquanto carrega
+
+                try {
+                    const analysis = await summarizeIssue(issueText);
+                    
+                    // Exibe o resumo
+                    summaryContent.innerHTML = `<p class="mb-2 font-normal"><strong>Resumo do Problema:</strong> ${analysis.resumo}</p>`;
+
+                    let actionText = `Canal Sugerido: <span class="font-extrabold text-white p-1 rounded">`;
+                    let highlightClass = '';
+
+                    // Define o destaque visual e o texto da ação (atualizado para apenas EMAIL e DISCORD)
+                    switch (analysis.canal_sugerido.toUpperCase()) {
+                        case 'EMAIL':
+                            highlightClass = 'bg-indigo-600/70 text-indigo-200';
+                            actionText += `EMAIL</span> - ${analysis.motivacao}`;
+                            break;
+                        case 'DISCORD':
+                            highlightClass = 'bg-indigo-600/70 text-indigo-200';
+                            actionText += `DISCORD</span> - ${analysis.motivacao}`;
+                            break;
+                        case 'WHATSAPP': // Mantido como fallback caso o modelo sugira
+                            highlightClass = 'bg-gray-600/70 text-gray-200';
+                            actionText += `WHATSAPP (NÃO DISPONÍVEL)</span> - O canal foi removido, use ${analysis.motivacao}`;
+                            break;
+                        default:
+                            highlightClass = 'bg-gray-600/70 text-gray-200';
+                            actionText += `${analysis.canal_sugerido}</span> - ${analysis.motivacao}`;
+                            break;
+                    }
+
+                    // Aplica o destaque e exibe a ação
+                    suggestedAction.innerHTML = actionText.replace('p-1 rounded', `p-1 rounded ${highlightClass}`);
+                    geminiOutput.classList.remove('hidden');
+
+                } catch (error) {
+                    summaryContent.innerHTML = "<p class='text-red-400'>Ocorreu um erro inesperado ao processar a IA. Tente novamente ou use o Email.</p>";
+                    suggestedAction.textContent = "";
+                    geminiOutput.classList.remove('hidden');
+                } finally {
+                    // Finaliza o estado de carregamento
+                    summarizeBtn.disabled = false;
+                    // Reset do texto para "PrimeAI"
+                    btnText.textContent = "✨ PrimeAI";
+                    loader.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
