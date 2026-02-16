@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeStudios - Hub Oficial</title>
+    
+    <!-- SEO & Metadata -->
+    <meta name="description" content="Central de suporte oficial da PrimeStudios. Scripts, bots e soluções digitais de alta performance.">
+    <meta property="og:title" content="PrimeStudios - Hub Oficial">
+    <meta property="og:description" content="A evolução do seu projeto continua aqui. Suporte, comunidade e produtos exclusivos.">
+    <meta property="og:url" content="https://primstudios.com.br/">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#7c3aed">
+    <link rel="canonical" href="https://primstudios.com.br/">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://i.postimg.cc/sXGj0c35/code-cube.png" type="image/png">
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#1f1f22',
+                            950: '#09090b',
+                        },
+                        violet: {
+                            550: '#7c3aed', // Custom violet
+                        }
+                    },
+                    animation: {
+                        blob: "blob 10s infinite",
+                        'fade-in': 'fadeIn 0.6s ease-out forwards',
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        blob: {
+                            "0%": { transform: "translate(0px, 0px) scale(1)" },
+                            "33%": { transform: "translate(30px, -50px) scale(1.1)" },
+                            "66%": { transform: "translate(-20px, 20px) scale(0.9)" },
+                            "100%": { transform: "translate(0px, 0px) scale(1)" },
+                        },
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #09090b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #7c3aed;
+        }
+        
+        /* Glass Effect Refined */
+        .glass-card {
+            background: rgba(20, 20, 23, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        .glass-card:hover {
+            background: rgba(25, 25, 28, 0.8);
+            border-color: rgba(124, 58, 237, 0.3);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.1);
+        }
+
+        /* Special Store Card */
+        .store-card {
+            background: rgba(6, 78, 59, 0.2);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 40px rgba(16, 185, 129, 0.05);
+        }
+        .store-card:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 0 60px rgba(16, 185, 129, 0.15);
+        }
+
+        /* Noise Overlay */
+        .noise-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+            opacity: 0.04;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .text-glow {
+            text-shadow: 0 0 20px rgba(124, 58, 237, 0.5);
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col selection:bg-violet-500/30 selection:text-violet-200">
+
+    <!-- Ambient Background -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <div class="absolute top-[-20%] left-[20%] w-[40vw] h-[40vw] bg-violet-600/10 rounded-full blur-[120px] animate-blob mix-blend-screen"></div>
+        <div class="absolute top-[40%] right-[-10%] w-[35vw] h-[35vw] bg-fuchsia-600/05 rounded-full blur-[100px] animate-blob animation-delay-2000 mix-blend-screen"></div>
+        <div class="absolute bottom-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-emerald-600/05 rounded-full blur-[120px] animate-blob animation-delay-4000 mix-blend-screen"></div>
+    </div>
+    <div class="noise-bg"></div>
+
+    <!-- Top Status Bar -->
+    <div class="w-full bg-violet-950/20 border-b border-white/5 backdrop-blur-md relative z-50">
+        <div class="max-w-7xl mx-auto px-6 h-8 flex items-center justify-end gap-4 text-[10px] sm:text-xs font-medium text-zinc-400">
+            <span class="flex items-center gap-1.5">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                Sistemas Operacionais
+            </span>
+            <span class="hidden sm:inline">|</span>
+            <span class="hidden sm:block">Suporte Online 09h às 22h</span>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="sticky top-0 w-full z-40 border-b border-white/5 bg-black/70 backdrop-blur-xl transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Brand -->
+            <div class="flex items-center gap-3 cursor-pointer group">
+                <div class="relative">
+                    <div class="absolute -inset-2 bg-gradient-to-r from-violet-600 to-fuchsia-600 rounded-full blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
+                    <div class="relative w-10 h-10 bg-zinc-900 rounded-xl flex items-center justify-center border border-white/10 shadow-lg overflow-hidden">
+                        <img src="https://i.postimg.cc/sXGj0c35/code-cube.png" alt="PrimeStudios Logo" class="w-6 h-6 object-contain">
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-lg font-bold text-white tracking-tight leading-none">Prime<span class="text-violet-500">Studios</span></span>
+                    <span class="text-[10px] text-zinc-500 font-medium tracking-widest uppercase">Digital Assets</span>
+                </div>
+            </div>
+            
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-1">
+                <a href="#inicio" class="px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Início</a>
+                <a href="#loja" class="px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Loja</a>
+                <a href="#comunidade" class="px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Comunidade</a>
+                <a href="#faq" class="px-4 py-2 text-sm text-zinc-400 hover:text-white hover:bg-white/5 rounded-lg transition-all">Ajuda</a>
+            </div>
+
+            <!-- CTA Button -->
+            <div class="hidden md:block">
+                <a href="https://discord.gg/JmXr4fCmwB" target="_blank" class="group relative px-5 py-2.5 bg-zinc-900 rounded-lg border border-white/10 text-white text-sm font-semibold overflow-hidden transition-all hover:border-violet-500/50">
+                    <div class="absolute inset-0 w-0 bg-violet-600 transition-all duration-[250ms] ease-out group-hover:w-full opacity-10"></div>
+                    <span class="relative flex items-center gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4 text-violet-400 group-hover:text-white transition-colors"></i> 
+                        Discord
+                    </span>
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden text-zinc-400 hover:text-white transition p-2">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-zinc-950/95 border-b border-zinc-800 backdrop-blur-xl absolute w-full left-0 top-full shadow-2xl animate-fade-in">
+            <div class="flex flex-col p-4 space-y-1">
+                <a href="#inicio" class="text-zinc-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg text-sm font-medium transition">Início</a>
+                <a href="#loja" class="text-zinc-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg text-sm font-medium transition">Loja Oficial</a>
+                <a href="#comunidade" class="text-zinc-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg text-sm font-medium transition">Comunidade</a>
+                <a href="#faq" class="text-zinc-400 hover:text-white hover:bg-white/5 px-4 py-3 rounded-lg text-sm font-medium transition">Perguntas Frequentes</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1 relative z-10 w-full overflow-hidden">
+
+        <!-- Hero Section -->
+        <section id="inicio" class="relative pt-24 pb-16 md:pt-32 md:pb-24 px-4">
+            <div class="max-w-4xl mx-auto text-center space-y-8 relative z-10">
+                
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-violet-500/20 bg-violet-500/5 backdrop-blur-sm animate-fade-in opacity-0" style="animation-delay: 0.1s;">
+                    <span class="w-1.5 h-1.5 rounded-full bg-violet-500 shadow-[0_0_8px_rgba(124,58,237,0.8)]"></span>
+                    <span class="text-xs font-semibold text-violet-300 tracking-wide uppercase">Hub Oficial de Suporte</span>
+                </div>
+
+                <!-- Headline -->
+                <h1 class="text-5xl md:text-7xl font-black text-white leading-[1.1] tracking-tight animate-fade-in opacity-0" style="animation-delay: 0.2s;">
+                    A evolução do seu <br class="hidden md:block" />
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 via-fuchsia-400 to-white text-glow">
+                        projeto continua aqui.
+                    </span>
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed animate-fade-in opacity-0" style="animation-delay: 0.3s;">
+                    Centralizamos nosso atendimento para oferecer mais qualidade. Utilize os canais abaixo para adquirir novos produtos ou solicitar suporte especializado.
+                </p>
+                
+                <!-- Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6 animate-fade-in opacity-0" style="animation-delay: 0.4s;">
+                    <a href="#loja" class="w-full sm:w-auto h-12 px-8 rounded-xl bg-white text-black font-bold hover:bg-zinc-200 transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:scale-105 duration-300">
+                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                        Ir para Loja
+                    </a>
+                    <a href="#comunidade" class="w-full sm:w-auto h-12 px-8 rounded-xl bg-zinc-900 border border-zinc-800 text-white font-semibold hover:border-zinc-600 transition-all flex items-center justify-center gap-2 hover:bg-zinc-800">
+                        <i data-lucide="users" class="w-5 h-5 text-zinc-500"></i>
+                        Comunidade
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="border-y border-white/5 bg-black/30 backdrop-blur-sm">
+            <div class="max-w-7xl mx-auto px-6 py-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="text-center md:text-left space-y-1">
+                        <div class="text-2xl md:text-3xl font-bold text-white">+5.000</div>
+                        <div class="text-xs text-zinc-500 font-medium uppercase tracking-wider">Clientes Satisfeitos</div>
+                    </div>
+                    <div class="text-center md:text-left space-y-1">
+                        <div class="text-2xl md:text-3xl font-bold text-white">4.9/5</div>
+                        <div class="text-xs text-zinc-500 font-medium uppercase tracking-wider">Avaliação Média</div>
+                    </div>
+                    <div class="text-center md:text-left space-y-1">
+                        <div class="text-2xl md:text-3xl font-bold text-white">24/7</div>
+                        <div class="text-xs text-zinc-500 font-medium uppercase tracking-wider">Suporte Automatizado</div>
+                    </div>
+                    <div class="text-center md:text-left space-y-1">
+                        <div class="text-2xl md:text-3xl font-bold text-white">100%</div>
+                        <div class="text-xs text-zinc-500 font-medium uppercase tracking-wider">Seguro & Verificado</div>
+                    </div>
+                </div>
+            </div>
+        <!-- SEÇÃO 1: LOJA (EM MANUTENÇÃO) -->
+        <section id="loja" class="py-16 md:py-24 px-4 relative">
+            <!-- Glow Effect específico (Amber/Neutro para manutenção) -->
+            <div class="absolute inset-0 bg-amber-900/5 pointer-events-none"></div>
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[30vw] bg-amber-600/05 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <div class="max-w-6xl mx-auto relative z-10">
+                <div class="flex flex-col items-center text-center mb-10">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-xs font-bold uppercase tracking-wider mb-4">
+                        <i data-lucide="alert-triangle" class="w-3 h-3"></i> Status: Manutenção
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4">Loja Oficial</h2>
+                    <p class="text-zinc-400 max-w-2xl">Estamos atualizando nossa infraestrutura para oferecer uma experiência ainda melhor.</p>
+                </div>
+
+                <!-- Card da Loja (Manutenção) -->
+                <div class="glass-card rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-10 group overflow-hidden relative border-amber-500/20">
+                    <!-- Detalhe decorativo -->
+                    <div class="absolute -right-10 -top-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl"></div>
+                    
+                    <div class="flex-1 text-center md:text-left space-y-6">
+                        <div class="space-y-2">
+                            <h3 class="text-4xl font-black text-white">Estamos em <span class="text-amber-500">Manutenção</span></h3>
+                            <p class="text-zinc-300 text-lg">Nossa vitrine oficial está passando por atualizações técnicas para melhor atendê-lo.</p>
+                        </div>
+                        
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                            <div class="flex items-center gap-2 text-sm text-zinc-400 bg-zinc-900/50 px-3 py-2 rounded-lg border border-zinc-700">
+                                <i data-lucide="clock" class="w-4 h-4"></i> Retorno Breve
+                            </div>
+                            <div class="flex items-center gap-2 text-sm text-zinc-400 bg-zinc-900/50 px-3 py-2 rounded-lg border border-zinc-700">
+                                <i data-lucide="server" class="w-4 h-4"></i> Atualizando Sistemas
+                            </div>
+                        </div>
+
+                        <!-- Seção "Enquanto isso..." -->
+                        <div class="pt-6 border-t border-white/5 mt-6">
+                            <p class="text-white font-bold text-lg mb-4 flex items-center justify-center md:justify-start gap-2">
+                                <i data-lucide="arrow-right" class="w-5 h-5 text-emerald-500"></i>
+                                Enquanto isso, compre pela <span class="text-emerald-400">DFG Games</span>:
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                                <a href="https://www.dfg.com.br/user/primestudios/listings" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-emerald-500/20 hover:-translate-y-1">
+                                    <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                                    Ir para Loja DFG
+                                </a>
+                                <a href="https://discord.gg/JmXr4fCmwB" target="_blank" class="inline-flex items-center gap-3 px-8 py-4 bg-zinc-800 hover:bg-zinc-700 text-white rounded-xl font-bold text-lg transition-all border border-zinc-700 hover:border-violet-500 group/btn">
+                                    <i data-lucide="message-circle" class="w-6 h-6 text-violet-400 group-hover/btn:text-white transition-colors"></i>
+                                    Discord
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual / Imagem Nova -->
+                    <div class="w-full md:w-96 h-64 bg-black/40 rounded-2xl border border-amber-500/10 flex items-center justify-center relative overflow-hidden shadow-2xl">
+                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+                         <!-- Imagem Fornecida -->
+                         <img src="https://i.postimg.cc/xCmkbYN0/Gemini-Generated-Image-ykkja0ykkja0ykkj.png" alt="Manutenção PrimeStudios" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-700">
+                         
+                         <!-- Ícone Overlay -->
+                         <div class="absolute z-20 bg-black/60 backdrop-blur-md border border-white/10 p-4 rounded-full shadow-lg">
+                            <i data-lucide="hammer" class="w-8 h-8 text-amber-500"></i>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 2: COMUNIDADE E SUPORTE (Separada) -->
+        <section id="comunidade" class="py-16 bg-zinc-950/50 border-t border-white/5">
+            <div class="max-w-6xl mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-white mb-2">Comunidade & Suporte</h2>
+                        <p class="text-zinc-400">Entre em contato, tire dúvidas ou acompanhe novidades.</p>
+                    </div>
+                    <div class="h-px w-full md:w-auto md:flex-1 bg-gradient-to-r from-zinc-800 to-transparent ml-6 mb-2 opacity-50"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Card Discord -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between group hover:border-violet-500/30 transition relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-violet-600/10 blur-3xl rounded-full translate-x-10 -translate-y-10 group-hover:bg-violet-600/20 transition"></div>
+                        <div>
+                            <div class="w-12 h-12 bg-violet-600/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition border border-violet-500/20">
+                                <i data-lucide="message-circle" class="w-6 h-6 text-violet-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Discord Oficial</h3>
+                            <p class="text-sm text-zinc-400 leading-relaxed mb-6">
+                                Central de tickets, atualizações de produtos (changelogs) e chat geral com outros clientes.
+                            </p>
+                        </div>
+                        <a href="https://discord.gg/JmXr4fCmwB" target="_blank" class="w-full py-3 rounded-lg border border-zinc-700 hover:border-violet-500 hover:bg-violet-500/10 text-white text-sm font-semibold flex items-center justify-center gap-2 transition">
+                            Entrar no Servidor <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+
+                    <!-- Card Instagram -->
+                    <div class="glass-card rounded-2xl p-8 flex flex-col justify-between group hover:border-fuchsia-500/30 transition relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-32 h-32 bg-fuchsia-600/10 blur-3xl rounded-full translate-x-10 -translate-y-10 group-hover:bg-fuchsia-600/20 transition"></div>
+                        <div>
+                            <div class="w-12 h-12 bg-fuchsia-600/10 rounded-lg flex items-center justify-center mb-6 group-hover:scale-110 transition border border-fuchsia-500/20">
+                                <i data-lucide="instagram" class="w-6 h-6 text-fuchsia-400"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2">Instagram</h3>
+                            <p class="text-sm text-zinc-400 leading-relaxed mb-6">
+                                Acompanhe bastidores, lançamentos rápidos e envie mensagens diretas (DM).
+                            </p>
+                        </div>
+                        <a href="https://www.instagram.com/prime.studiosgg/" target="_blank" class="w-full py-3 rounded-lg border border-zinc-700 hover:border-fuchsia-500 hover:bg-fuchsia-500/10 text-white text-sm font-semibold flex items-center justify-center gap-2 transition">
+                            Seguir Perfil <i data-lucide="external-link" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Accordion -->
+        <section id="faq" class="py-12 max-w-3xl mx-auto px-4">
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-white mb-3">Dúvidas Frequentes</h2>
+                <p class="text-zinc-500">Respostas rápidas para as questões mais comuns.</p>
+            </div>
+
+            <div class="space-y-3">
+                <!-- FAQ 1 -->
+                <details class="group bg-zinc-900/40 border border-white/5 rounded-xl overflow-hidden transition-all duration-300 open:bg-zinc-900/80 open:border-violet-500/30">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+                        <span class="font-medium text-zinc-200 group-hover:text-white transition">Como recebo o produto?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-zinc-500 transition-transform duration-300 group-open:rotate-180 group-open:text-violet-500"></i>
+                    </summary>
+                    <div class="px-5 pb-5 pt-0 text-sm text-zinc-400 leading-relaxed border-t border-white/0 group-open:border-white/5 group-open:pt-4 transition-all">
+                        A entrega é imediata e automática. Após a confirmação do pagamento na DFG, você receberá o link de download ou a licença diretamente no painel da compra.
+                    </div>
+                </details>
+
+                <!-- FAQ 2 -->
+                <details class="group bg-zinc-900/40 border border-white/5 rounded-xl overflow-hidden transition-all duration-300 open:bg-zinc-900/80 open:border-violet-500/30">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+                        <span class="font-medium text-zinc-200 group-hover:text-white transition">Preciso de ajuda na instalação. E agora?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-zinc-500 transition-transform duration-300 group-open:rotate-180 group-open:text-violet-500"></i>
+                    </summary>
+                    <div class="px-5 pb-5 pt-0 text-sm text-zinc-400 leading-relaxed border-t border-white/0 group-open:border-white/5 group-open:pt-4 transition-all">
+                        Oferecemos suporte completo via Discord. Basta abrir um ticket, enviar o comprovante de compra e nossa equipe técnica irá auxiliá-lo.
+                    </div>
+                </details>
+
+                <!-- FAQ 3 -->
+                <details class="group bg-zinc-900/40 border border-white/5 rounded-xl overflow-hidden transition-all duration-300 open:bg-zinc-900/80 open:border-violet-500/30">
+                    <summary class="flex justify-between items-center p-5 cursor-pointer select-none">
+                        <span class="font-medium text-zinc-200 group-hover:text-white transition">Perdi meu acesso, como recuperar?</span>
+                        <i data-lucide="chevron-down" class="w-5 h-5 text-zinc-500 transition-transform duration-300 group-open:rotate-180 group-open:text-violet-500"></i>
+                    </summary>
+                    <div class="px-5 pb-5 pt-0 text-sm text-zinc-400 leading-relaxed border-t border-white/0 group-open:border-white/5 group-open:pt-4 transition-all">
+                        Não se preocupe. Entre em contato via Ticket no Discord informando o e-mail ou CPF utilizado na compra para revalidarmos sua licença.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="border-t border-white/5 bg-[#050505] pt-16 pb-8 relative z-10">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+                
+                <!-- Brand Column -->
+                <div class="md:col-span-2 space-y-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-zinc-900 rounded-lg flex items-center justify-center border border-white/10 overflow-hidden">
+                            <img src="https://i.postimg.cc/sXGj0c35/code-cube.png" alt="Logo" class="w-6 h-6 object-contain">
+                        </div>
+                        <span class="text-xl font-bold text-white">Prime<span class="text-violet-500">Studios</span></span>
+                    </div>
+                    <p class="text-zinc-500 text-sm leading-relaxed max-w-sm">
+                        Desenvolvemos soluções digitais que potencializam comunidades. Foco em performance, segurança e usabilidade para o seu projeto.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="https://discord.gg/JmXr4fCmwB" target="_blank" class="p-2 bg-zinc-900 rounded-lg text-zinc-400 hover:text-white hover:bg-violet-600 transition"><i data-lucide="message-circle" class="w-5 h-5"></i></a>
+                        <a href="https://www.instagram.com/prime.studiosgg/" target="_blank" class="p-2 bg-zinc-900 rounded-lg text-zinc-400 hover:text-white hover:bg-fuchsia-600 transition"><i data-lucide="instagram" class="w-5 h-5"></i></a>
+                    </div>
+                </div>
+
+                <!-- Links Column -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Navegação</h4>
+                    <ul class="space-y-3 text-sm text-zinc-500">
+                        <li><a href="#inicio" class="hover:text-violet-400 transition">Início</a></li>
+                        <li><a href="#loja" class="hover:text-violet-400 transition">Loja Oficial</a></li>
+                        <li><a href="#comunidade" class="hover:text-violet-400 transition">Comunidade</a></li>
+                        <li><a href="#faq" class="hover:text-violet-400 transition">Ajuda</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Column -->
+                <div>
+                    <h4 class="text-white font-semibold mb-6">Legal</h4>
+                    <ul class="space-y-3 text-sm text-zinc-500">
+                        <li><a href="#" class="hover:text-violet-400 transition">Termos de Uso</a></li>
+                        <li><a href="#" class="hover:text-violet-400 transition">Privacidade</a></li>
+                        <li><a href="#" class="hover:text-violet-400 transition">Reembolso</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-zinc-600 text-xs text-center md:text-left">
+                    © 2026 PrimeStudios. Todos os direitos reservados.
+                </p>
+                <div class="flex items-center gap-6">
+                    <div class="flex items-center gap-2 text-xs text-zinc-600">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                        Site Seguro (SSL)
+                    </div>
+                    <i data-lucide="shield-check" class="w-4 h-4 text-zinc-600"></i>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
